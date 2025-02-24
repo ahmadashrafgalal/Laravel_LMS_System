@@ -42,27 +42,49 @@
 
                                 <h4 class="card-title mb-1">Adventure starts here 🚀</h4>
                                 <p class="card-text mb-2">Make your app management easy and fun!</p>
-
-                                <form class="auth-register-form mt-2" action="index.html" method="POST">
-                                    <div class="form-group">
-                                        <label for="register-username" class="form-label">Username</label>
-                                        <input type="text" class="form-control" id="register-username" name="register-username" placeholder="johndoe" aria-describedby="register-username" tabindex="1" autofocus />
+                                @include('errors.errors')
+                                <form class="auth-register-form mt-2" action="{{ route('register') }}" method="POST">
+                                    @csrf
+                                    {{-- Radio 1 --}}
+                                    <div class="mb-2">
+                                        <div class="d-flex gap-5">
+                                            <div class="custom-control custom-radio">
+                                                <input value="{{ \App\Enum\Roles::STUDENT }}" type="radio" id="role-student" name="role" class="custom-control-input" @checked(old('role', \App\Enum\Roles::STUDENT) === \App\Enum\Roles::STUDENT)>
+                                                <label class="custom-control-label" for="role-student">STUDENT</label>
+                                            </div>
+    
+                                            <div class="custom-control custom-radio custom-control-success">
+                                                <input value="{{ \App\Enum\Roles::TUTOR }}" type="radio" id="role-tutor" name="role" class="custom-control-input" @checked(old('role') === \App\Enum\Roles::TUTOR)>
+                                                <label class="custom-control-label" for="role-tutor">TUTOR</label>
+                                            </div>
+                                        </div>
                                     </div>
+                                    {{-- First Name --}}
+                                    <div class="form-group">
+                                        <label for="first-name" class="form-label">Firstname</label>
+                                        <input value="{{ old('first-name') }}" type="text" class="form-control" id="first-name" name="first-name" placeholder="Enter your First Name" aria-describedby="register-username" tabindex="1" autofocus />
+                                    </div>
+                                    {{-- Last Name --}}
+                                    <div class="form-group">
+                                        <label for="last-name" class="form-label">Lastname</label>
+                                        <input value="{{ old('last-name') }}" type="text" class="form-control" id="last-name" name="last-name" placeholder="Enter your Last Name" aria-describedby="register-username" tabindex="1" autofocus />
+                                    </div>
+                                    {{-- Email --}}
                                     <div class="form-group">
                                         <label for="register-email" class="form-label">Email</label>
-                                        <input type="text" class="form-control" id="register-email" name="register-email" placeholder="john@example.com" aria-describedby="register-email" tabindex="2" />
+                                        <input value="{{ old('email') }}" type="text" class="form-control" id="register-email" name="email" placeholder="john@example.com" aria-describedby="register-email" tabindex="2" />
                                     </div>
-
+                                    {{-- Password --}}
                                     <div class="form-group">
                                         <label for="register-password" class="form-label">Password</label>
-
                                         <div class="input-group input-group-merge form-password-toggle">
-                                            <input type="password" class="form-control form-control-merge" id="register-password" name="register-password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="register-password" tabindex="3" />
+                                            <input type="password" class="form-control form-control-merge" id="register-password" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="register-password" tabindex="3" />
                                             <div class="input-group-append">
                                                 <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="form-group">
                                         <div class="custom-control custom-checkbox">
                                             <input class="custom-control-input" type="checkbox" id="register-privacy-policy" tabindex="4" />
