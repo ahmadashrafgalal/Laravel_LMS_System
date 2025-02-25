@@ -11,6 +11,8 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller{
     protected object $service;
@@ -28,8 +30,11 @@ class RegisterController extends Controller{
         // dd($request);
         try{
             DB::beginTransaction();
-                $this->service->register($request);
+                $user = $this->service->register($request);
             DB::commit();
+
+            Auth::login($user);
+            event(new Registered($user));
 
             return redirect()->back()->with('success', 'User has been registered successfully');
         }catch(QueryException | \Exception $e){
